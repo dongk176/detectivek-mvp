@@ -27,6 +27,9 @@ export default function Home() {
         <section className="hero">
           <div className="container hero-inner">
             <div className="hero-text">
+              <div className="hero-badge">
+                국내 최초 투명한 가격 공개 · AI와 함께 무료 상담
+              </div>
               <h1>신뢰로 시작해, 결과로 증명하는 탐정케이</h1>
               <p className="hero-desc">
                 탐정케이는 사건의 복잡함보다 고객의 마음을 먼저 읽습니다. 의뢰부터

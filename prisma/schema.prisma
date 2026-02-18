@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+  engineType = "binary"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model IntakeSubmission {
+  id               String   @id @default(cuid())
+  createdAt        DateTime @default(now())
+  purpose          String
+  region           String
+  startPreference  String?
+  summary          String
+  reviewSummary    String?
+  selectedPackage  String
+  contact          String
+  messages         Json
+  estimate         Json?
+  plan             Json?
+  referenceId      String?
+  userAgent        String?
+  ipAddress        String?
+}
+
+model ConsultationVisit {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  userAgent String?
+  ipAddress String?
+}

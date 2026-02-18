@@ -1,25 +1,45 @@
-import ChatCard from "./components/ChatCard";
-import ProcessTabs from "./components/ProcessTabs";
+import CountUpNumber from "./components/CountUpNumber";
+import ConsultationLink from "./components/ConsultationLink";
+import PricingSection from "./components/PricingSection";
+import SampleReportButton from "./components/SampleReportButton";
+import { prisma } from "@/lib/prisma";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  let consultationVisitorCount = 150;
+  try {
+    consultationVisitorCount = await prisma.consultationVisit.count();
+  } catch {
+    consultationVisitorCount = 150;
+  }
+
+  const displayCount = Math.max(1, consultationVisitorCount);
+
   return (
     <>
-      <div className="bg-noise" aria-hidden="true" />
       <header className="site-header">
         <div className="container header-inner">
           <a className="logo" href="#top">
+            <span className="logo-mark" aria-hidden="true">
+              <span className="material-symbols-outlined">local_police</span>
+            </span>
             탐정케이
           </a>
           <nav className="nav">
-            <a href="#services">서비스 소개</a>
-            <a href="#pricing">가격</a>
             <a href="#process">진행 방식</a>
-            <a href="#stories">사례/후기</a>
-            <a href="#partners">검증된 파트너</a>
-            <a href="#faq">FAQ</a>
-            <a href="#legal">안전·합법 가이드</a>
+            <a href="#packages">패키지</a>
+            <a href="#pricing">가격</a>
+            <a href="#legal">합법 기준</a>
           </nav>
-          <div className="header-spacer" aria-hidden="true" />
+          <div className="header-cta">
+            <ConsultationLink className="cta-primary">
+              익명 상담 시작
+              <span className="material-symbols-outlined" aria-hidden="true">
+                arrow_forward
+              </span>
+            </ConsultationLink>
+          </div>
         </div>
       </header>
 
@@ -28,277 +48,319 @@ export default function Home() {
           <div className="container hero-inner">
             <div className="hero-text">
               <div className="hero-badge">
-                국내 최초 투명한 가격 공개 · AI와 함께 무료 상담
+                <span className="pulse" aria-hidden="true" />
+                신규 의뢰 접수 중
               </div>
-              <h1>신뢰로 시작해, 결과로 증명하는 탐정케이</h1>
+              <h1>
+                합법 절차로, <br />
+                <span className="hero-highlight">익명 상담부터 시작</span>
+              </h1>
               <p className="hero-desc">
-                탐정케이는 사건의 복잡함보다 고객의 마음을 먼저 읽습니다. 의뢰부터
-                증빙까지 한 팀이 책임지고, 매 단계에서 투명하게 공유합니다.
+                투명한 가격과 합법 기준을 바탕으로 조사를 진행합니다. 탐정케이는
+                기록 가능한 증빙으로 진실을 지켜드립니다.
               </p>
               <div className="hero-actions">
-                <button className="cta" type="button">
-                  지금 무료 상담
-                </button>
+                <ConsultationLink className="cta-primary">
+                  상담 시작
+                </ConsultationLink>
+                <SampleReportButton className="cta-secondary" />
               </div>
               <div className="hero-trust">
                 <div>
-                  <strong>98%</strong>
-                  <span>고객 재의뢰율</span>
+                  <span className="material-symbols-outlined">gavel</span>
+                  <strong>합법 절차</strong>
                 </div>
                 <div>
-                  <strong>24시간</strong>
-                  <span>비밀 보호 체계</span>
+                  <span className="material-symbols-outlined">payments</span>
+                  <strong>가격 투명성</strong>
                 </div>
                 <div>
-                  <strong>국내 1,200+</strong>
-                  <span>파트너 네트워크</span>
+                  <span className="material-symbols-outlined">verified</span>
+                  <strong>표준 보고서</strong>
                 </div>
               </div>
             </div>
-            <ChatCard />
+            <div className="hero-media">
+              <div className="hero-media-stack" aria-label="핵심 지표 카드">
+                <article className="hero-metric-card">
+                  <div className="hero-metric-icon blue">
+                    <span className="material-symbols-outlined">groups</span>
+                  </div>
+                  <div className="hero-metric-content">
+                    <p>신뢰의 증거</p>
+                    <h3>
+                      누적 상담 고객{" "}
+                      <CountUpNumber end={displayCount} suffix="명" />
+                    </h3>
+                  </div>
+                </article>
+                <article className="hero-metric-card">
+                  <div className="hero-metric-icon indigo">
+                    <span className="material-symbols-outlined">balance</span>
+                  </div>
+                  <div className="hero-metric-content">
+                    <p>제휴 법무 파트너</p>
+                    <h3>법무법인 동케이</h3>
+                  </div>
+                </article>
+                <article className="hero-metric-card">
+                  <div className="hero-metric-icon green">
+                    <span className="material-symbols-outlined">timer</span>
+                  </div>
+                  <div className="hero-metric-content">
+                    <p>신속한 착수</p>
+                    <h3>계약 후 24시간 내 조사 시작</h3>
+                  </div>
+                </article>
+              </div>
+            </div>
           </div>
         </section>
 
-        <section id="services" className="section">
+        <section className="section section-alt" id="why-us">
           <div className="container">
-            <div className="section-head">
-              <h2>서비스 소개</h2>
-              <p>신뢰, 친근함, 그리고 증거 기반. 목적이 명확한 서비스만 제공합니다.</p>
+            <div className="section-head center">
+              <h2>업계의 문제를 해결합니다</h2>
+              <p>
+                기존 조사 서비스의 불투명함을 걷어내고, 예측 가능한 절차와
+                합법 기준으로 다시 설계했습니다.
+              </p>
             </div>
             <div className="grid cards">
               <article>
-                <h3>기초 사실조사</h3>
-                <p>배우자 동선과 기본 정황을 합법 범위 내에서 확인합니다.</p>
-                <span>첫 판단을 위한 핵심 정보</span>
+                <span className="icon-box">
+                  <span className="material-symbols-outlined">sell</span>
+                </span>
+                <h3>고정 요금제</h3>
+                <p>숨겨진 비용 없이 패키지 기준으로 명확하게 안내합니다.</p>
               </article>
               <article>
-                <h3>표준 외도조사</h3>
-                <p>반복 동선과 출입 여부를 확인해 정황을 명확히 정리합니다.</p>
-                <span>사진/시간대 기록 제공</span>
+                <span className="icon-box">
+                  <span className="material-symbols-outlined">ads_click</span>
+                </span>
+                <h3>명확한 범위</h3>
+                <p>조사 범위와 목표를 사전에 합의해 혼선을 줄입니다.</p>
               </article>
               <article>
-                <h3>심층 외도 확증</h3>
-                <p>필요 시 법률 연계까지 고려한 심층 증거 확보를 지원합니다.</p>
-                <span>소송용 정리 패키지</span>
+                <span className="icon-box">
+                  <span className="material-symbols-outlined">policy</span>
+                </span>
+                <h3>100% 합법</h3>
+                <p>법원에서 인정되는 절차만 준수해 증거를 확보합니다.</p>
               </article>
               <article>
-                <h3>안전·합법 가이드</h3>
-                <p>조사 전 법적 범위를 설명하고 안전한 절차만 안내합니다.</p>
-                <span>개인정보 보호 우선</span>
+                <span className="icon-box">
+                  <span className="material-symbols-outlined">visibility</span>
+                </span>
+                <h3>전 과정 투명</h3>
+                <p>보안 포털을 통해 진행 상황을 실시간으로 공유합니다.</p>
               </article>
             </div>
           </div>
         </section>
 
-        <section id="pricing" className="section alt">
+        <section className="section" id="process">
           <div className="container">
             <div className="section-head">
-              <h2>가격</h2>
-              <p>투명한 범위 안내, 정확한 견적은 상담 후 제안합니다.</p>
+              <h2>표준화된 진행 과정</h2>
+              <p>첫 익명 상담부터 최종 보고서까지 안전하게 관리합니다.</p>
             </div>
-            <div className="grid pricing">
-              <article>
-                <h3>패키지 A. 기초 사실조사 (BASIC)</h3>
-                <p className="price">25만 ~ 49만원</p>
-                <ul>
-                  <li>배우자의 기본 동선 분석</li>
-                  <li>주요 시간대 관찰 1회(2~3시간)</li>
-                  <li>외부 촬영(공개된 장소)</li>
-                  <li>차량 동승 여부 확인</li>
-                  <li>기본 정황 보고서</li>
-                  <li>기초 사실조사 보고서(PDF)</li>
-                  <li>사진 3~5장 첨부</li>
-                  <li>부정행위 의심 지표 분석</li>
-                </ul>
-                <button className="ghost" type="button">
-                  문의하기
-                </button>
-              </article>
-              <article className="highlight">
-                <h3>패키지 B. 표준 외도조사 (STANDARD)</h3>
-                <p className="price">79만 ~ 150만원</p>
-                <ul>
-                  <li>3일간 동선 추적 및 반복 관찰(각 2~4시간)</li>
-                  <li>차량 동승, 식당/카페 출입 체크</li>
-                  <li>호텔/모텔 출입 여부 확인</li>
-                  <li>외도 상대 존재 여부 탐문</li>
-                  <li>심층 정황 확보</li>
-                  <li>카톡·결제내역 확보 가이드</li>
-                  <li>전문 조사보고서 작성</li>
-                  <li>외도 사실조사 보고서(사진 10~20장)</li>
-                  <li>시간대별 행동기록</li>
-                  <li>부정행위 가능성 분석(점수제)</li>
-                  <li>위자료 소송 시 활용</li>
-                </ul>
-                <button className="cta" type="button">
-                  가장 인기
-                </button>
-              </article>
-              <article>
-                <h3>패키지 C. 심층 외도 확증 패키지 (PREMIUM)</h3>
-                <p className="price">200만 ~ 350만원</p>
-                <ul>
-                  <li>주 1주일 전담 배정</li>
-                  <li>주요 요일 반복 미행</li>
-                  <li>호텔 출입 2회 이상 확보</li>
-                  <li>외도 상대 신원 파악(합법 범위 내)</li>
-                  <li>증거 촬영 20~50장</li>
-                  <li>통화 녹음 확보 가이드</li>
-                  <li>변호사 연계(제휴 시)</li>
-                  <li>진술 유도 전략 코칭</li>
-                  <li>부정행위 확증 보고서(PDF + Word)</li>
-                  <li>소송용 증거 정리 ZIP 파일</li>
-                  <li>위자료 청구 전략 문서</li>
-                  <li>법원 제출용 타임라인 제작</li>
-                </ul>
-                <button className="ghost" type="button">
-                  문의하기
-                </button>
-              </article>
+            <div className="timeline">
+              <div className="timeline-line" aria-hidden="true" />
+              <div className="timeline-step">
+                <div className="step-circle active">1</div>
+                <div>
+                  <h4>상담</h4>
+                  <span>익명·보안 채널</span>
+                </div>
+              </div>
+              <div className="timeline-step">
+                <div className="step-circle">2</div>
+                <div>
+                  <h4>전략 수립</h4>
+                  <span>합법성 검토</span>
+                </div>
+              </div>
+              <div className="timeline-step">
+                <div className="step-circle">3</div>
+                <div>
+                  <h4>계약</h4>
+                  <span>전자 서명</span>
+                </div>
+              </div>
+              <div className="timeline-step">
+                <div className="step-circle">4</div>
+                <div>
+                  <h4>조사</h4>
+                  <span>현장·디지털</span>
+                </div>
+              </div>
+              <div className="timeline-step">
+                <div className="step-circle">5</div>
+                <div>
+                  <h4>분석</h4>
+                  <span>증거 필터링</span>
+                </div>
+              </div>
+              <div className="timeline-step">
+                <div className="step-circle">6</div>
+                <div>
+                  <h4>보고</h4>
+                  <span>최종 전달</span>
+                </div>
+              </div>
             </div>
-            <div className="pricing-compare">
-              <h3>패키지 포함 내용 비교</h3>
-              <div className="compare-table" role="table" aria-label="패키지 비교">
-                <div className="compare-row header" role="row">
-                  <div role="columnheader">포함 항목</div>
-                  <div role="columnheader">BASIC</div>
-                  <div role="columnheader">STANDARD</div>
-                  <div role="columnheader">PREMIUM</div>
+
+            <div className="timeline-mobile">
+              <div className="timeline-mobile-item">
+                <div className="mobile-circle">1</div>
+                <div>
+                  <h4>상담</h4>
+                  <p>익명 상담 후 보안 채널로 초기 정보 확인.</p>
                 </div>
-                <div className="compare-row" role="row">
-                  <div role="rowheader">기본 동선 분석</div>
-                  <div>O</div>
-                  <div>O</div>
-                  <div>O</div>
+              </div>
+              <div className="timeline-mobile-item">
+                <div className="mobile-circle">2</div>
+                <div>
+                  <h4>전략 수립</h4>
+                  <p>조사 범위와 합법 기준을 확정합니다.</p>
                 </div>
-                <div className="compare-row" role="row">
-                  <div role="rowheader">반복 관찰(2~4시간)</div>
-                  <div>X</div>
-                  <div>O</div>
-                  <div>O</div>
-                </div>
-                <div className="compare-row" role="row">
-                  <div role="rowheader">호텔/모텔 출입 확인</div>
-                  <div>X</div>
-                  <div>O</div>
-                  <div>O</div>
-                </div>
-                <div className="compare-row" role="row">
-                  <div role="rowheader">상대 신원 파악</div>
-                  <div>X</div>
-                  <div>X</div>
-                  <div>O</div>
-                </div>
-                <div className="compare-row" role="row">
-                  <div role="rowheader">증거 촬영 수량</div>
-                  <div>3~5장</div>
-                  <div>10~20장</div>
-                  <div>20~50장</div>
-                </div>
-                <div className="compare-row" role="row">
-                  <div role="rowheader">소송용 증거 정리</div>
-                  <div>X</div>
-                  <div>O</div>
-                  <div>O</div>
-                </div>
-                <div className="compare-row" role="row">
-                  <div role="rowheader">법률 연계 지원</div>
-                  <div>X</div>
-                  <div>X</div>
-                  <div>O</div>
+              </div>
+              <div className="timeline-mobile-item">
+                <div className="mobile-circle">3</div>
+                <div>
+                  <h4>조사 및 보고</h4>
+                  <p>계약, 조사, 분석, 보고까지 표준 절차로 관리합니다.</p>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section id="process" className="section">
-          <div className="container">
-            <div className="section-head">
-              <h2>진행 방식</h2>
-              <p>한 번에 이해되는 4단계. 모든 과정은 기록으로 남깁니다.</p>
+        <PricingSection />
+
+        <section className="section">
+          <div className="container split">
+            <div>
+              <h2>결과물을 직접 확인하세요</h2>
+              <p>
+                약속만 하지 않습니다. 법적 기준에 맞춘 전문 보고서를 제공합니다.
+              </p>
+              <div className="feature-list">
+                <div>
+                  <span className="icon-box">
+                    <span className="material-symbols-outlined">description</span>
+                  </span>
+                  <div>
+                    <h4>상세 PDF 보고서</h4>
+                    <p>시간순 정리, 핵심 요약, 종합 분석 제공.</p>
+                  </div>
+                </div>
+                <div>
+                  <span className="icon-box">
+                    <span className="material-symbols-outlined">folder_zip</span>
+                  </span>
+                  <div>
+                    <h4>정리된 증거 파일</h4>
+                    <p>사진, 영상, 로그를 날짜별로 정리합니다.</p>
+                  </div>
+                </div>
+                <div>
+                  <span className="icon-box">
+                    <span className="material-symbols-outlined">lock_clock</span>
+                  </span>
+                  <div>
+                    <h4>보안 전달</h4>
+                    <p>암호화 링크로 제공하며 7일 후 자동 만료됩니다.</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <ProcessTabs />
+            <div className="mockup">
+              <div className="mockup-frame">
+                <div className="mockup-header">
+                  <span />
+                  <span />
+                  <span />
+                </div>
+                <div className="mockup-body">
+                  <div className="line short" />
+                  <div className="line" />
+                  <div className="line" />
+                  <div className="line medium" />
+                  <div className="grid-two">
+                    <div />
+                    <div />
+                  </div>
+                  <div className="line" />
+                  <div className="line" />
+                  <div className="line" />
+                </div>
+                <div className="mockup-lock">
+                  <span className="material-symbols-outlined">visibility_off</span>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
-        <section id="stories" className="section alt">
-          <div className="container">
-            <div className="section-head">
-              <h2>사례/후기</h2>
-              <p>실제 의뢰인 피드백을 바탕으로 신뢰를 확인하세요.</p>
+        <section className="section section-alt" id="faq">
+          <div className="container narrow">
+            <div className="section-head center">
+              <h2>자주 묻는 질문</h2>
             </div>
-            <div className="grid testimonials">
-              <figure>
-                <blockquote>
-                  &quot;처음에는 걱정이 컸지만, 매일 공유되는 리포트로 마음이
-                  놓였습니다. 마지막 증빙까지 깔끔했습니다.&quot;
-                </blockquote>
-                <figcaption>김OO / 개인 의뢰</figcaption>
-              </figure>
-              <figure>
-                <blockquote>
-                  &quot;기업 조사에 필요한 포인트를 정확히 짚어주셨고, 법무팀에서도
-                  인정했습니다.&quot;
-                </blockquote>
-                <figcaption>박OO / 기업 담당</figcaption>
-              </figure>
-              <figure>
-                <blockquote>
-                  &quot;친절하고 빠른 대응 덕분에 상황을 정리할 수 있었습니다.&quot;
-                </blockquote>
-                <figcaption>이OO / 가족 의뢰</figcaption>
-              </figure>
-            </div>
-          </div>
-        </section>
-
-        <section id="partners" className="section">
-          <div className="container">
-            <div className="section-head">
-              <h2>검증된 파트너</h2>
-              <p>법률, 보안, 데이터 분석 전문가가 함께합니다.</p>
-            </div>
-            <div className="partners">
-              <div>법률 자문 파트너</div>
-              <div>디지털 포렌식</div>
-              <div>현장 보안</div>
-              <div>데이터 분석</div>
-              <div>국내 협력 네트워크</div>
-            </div>
-          </div>
-        </section>
-
-        <section id="faq" className="section alt">
-          <div className="container">
-            <div className="section-head">
-              <h2>FAQ</h2>
-              <p>자주 묻는 질문을 미리 정리했습니다.</p>
-            </div>
-            <div className="grid faq">
-              <details open>
-                <summary>상담 내용은 안전하게 보호되나요?</summary>
-                <p>모든 상담은 비밀 유지 계약서에 따라 진행되며 기록은 암호화됩니다.</p>
+            <div className="faq">
+              <details>
+                <summary>
+                  사설 조사 의뢰는 합법인가요?
+                  <span className="material-symbols-outlined">expand_more</span>
+                </summary>
+                <p>
+                  개인정보보호법 등 관련 법령을 준수하는 범위 내에서만 진행합니다.
+                  불법 수단은 사용하지 않습니다.
+                </p>
               </details>
               <details>
-                <summary>합법적인 범위는 어떻게 확인하나요?</summary>
-                <p>사건별 법률 자문을 통해 조사 범위를 사전에 확정합니다.</p>
+                <summary>
+                  익명성은 어떻게 보장되나요?
+                  <span className="material-symbols-outlined">expand_more</span>
+                </summary>
+                <p>
+                  이중 보안 프로토콜을 적용해 의뢰자 정보는 전담 매니저만
+                  접근합니다. 현장 조사에는 필요한 정보만 전달됩니다.
+                </p>
               </details>
               <details>
-                <summary>조사 기간은 얼마나 걸리나요?</summary>
-                <p>기본 조사 7일, 집중 조사는 2~4주가 평균입니다.</p>
+                <summary>
+                  결과가 없으면 어떻게 되나요?
+                  <span className="material-symbols-outlined">expand_more</span>
+                </summary>
+                <p>
+                  조사 결과가 없다는 사실 또한 중요한 결론입니다. 전문 인력과
+                  자원 투입 비용이 포함됩니다.
+                </p>
+              </details>
+              <details>
+                <summary>
+                  보고서는 법원에서 사용할 수 있나요?
+                  <span className="material-symbols-outlined">expand_more</span>
+                </summary>
+                <p>
+                  표준/프리미엄은 증거 기준에 맞춰 작성됩니다. 최종 활용은
+                  법률 대리인의 전략에 따라 결정됩니다.
+                </p>
               </details>
             </div>
           </div>
         </section>
 
-        <section id="legal" className="section">
-          <div className="container legal">
+        <section className="section legal" id="legal">
+          <div className="container legal-inner">
             <div>
               <h2>안전·합법 가이드</h2>
               <p>
-                탐정케이는 개인정보보호법, 위치정보법 등 관련 법령을 준수합니다. 모든
-                조사는 사전 동의와 법률 검토를 바탕으로 진행됩니다.
+                탐정케이는 개인정보보호법, 위치정보법 등 관련 법령을 준수합니다.
+                모든 조사는 사전 동의와 법률 검토를 바탕으로 진행됩니다.
               </p>
             </div>
             <div className="legal-card">
@@ -313,28 +375,66 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section callout">
-          <div className="container callout-inner">
-            <div>
-              <h2>지금 바로, 조용히 시작하세요.</h2>
-              <p>첫 상담은 무료입니다. 부담 없이 상황을 말씀해주세요.</p>
-            </div>
-            <button className="cta" type="button">
-              상담 예약
-            </button>
+        <section className="section final-cta">
+          <div className="container center">
+            <h2>상황의 진실이 필요하신가요?</h2>
+            <p>
+              100% 익명 상담으로 시작하세요. 부담 없이 사실 확인 전략을
+              안내드립니다.
+            </p>
+            <ConsultationLink className="cta-primary">
+              익명 상담 시작
+              <span className="material-symbols-outlined" aria-hidden="true">
+                arrow_forward
+              </span>
+            </ConsultationLink>
+            <span className="cta-note">보안 연결 · 256비트 암호화 · 기록 미보관</span>
           </div>
         </section>
       </main>
 
       <footer className="site-footer">
-        <div className="container footer-inner">
+        <div className="container footer-grid">
           <div>
-            <strong>탐정케이</strong>
-            <p>서울시 강남구 · 24시간 상담 · 탐정업 등록</p>
+            <div className="footer-brand">
+              <span className="logo-mark" aria-hidden="true">
+                <span className="material-symbols-outlined">local_police</span>
+              </span>
+              탐정케이
+            </div>
+            <p>합법·윤리 기준을 지키는 프라이빗 조사 전문 브랜드.</p>
           </div>
           <div>
-            <span>CONTACT</span>
-            <p>02-000-0000 · hello@detectivek.co.kr</p>
+            <h4>서비스</h4>
+            <ul>
+              <li>개인 신원 확인</li>
+              <li>기업 리스크 조사</li>
+              <li>증거 확보</li>
+              <li>사이버 조사</li>
+            </ul>
+          </div>
+          <div>
+            <h4>회사</h4>
+            <ul>
+              <li>회사 소개</li>
+              <li>법률 준수</li>
+              <li>채용</li>
+              <li>문의하기</li>
+            </ul>
+          </div>
+          <div>
+            <h4>법적 고지</h4>
+            <p>
+              탐정케이는 불법 해킹, 도청, 침입을 수행하지 않습니다. 모든 서비스는
+              기밀로 진행됩니다.
+            </p>
+          </div>
+        </div>
+        <div className="container footer-bottom">
+          <p>© 2026 탐정케이. All rights reserved.</p>
+          <div className="footer-links">
+            <a href="#">개인정보처리방침</a>
+            <a href="#">이용약관</a>
           </div>
         </div>
       </footer>

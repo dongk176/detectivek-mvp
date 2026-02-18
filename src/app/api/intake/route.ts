@@ -1,9 +1,14 @@
 import { NextResponse } from "next/server";
+import type { Prisma } from "@/generated/prisma";
 import { isIllegalRequest, validateIntake } from "@/lib/intakeSchema";
 import { estimatePackages, formatRange, formatWeeks } from "@/lib/intakePricing";
 import { validateContactPhone } from "@/lib/contact";
 
 const OPENAI_API_URL = "https://api.openai.com/v1/responses";
+
+function toInputJson(value: unknown): Prisma.InputJsonValue {
+  return JSON.parse(JSON.stringify(value)) as Prisma.InputJsonValue;
+}
 
 export async function POST(request: Request) {
   try {
@@ -48,6 +53,8 @@ export async function POST(request: Request) {
 
     const estimate = estimatePackages(form);
     const estimatedDuration = formatWeeks(estimate.weeks);
+    const estimateJson = toInputJson(estimate);
+    const messagesJson = toInputJson(messages);
 
     const userAgent = request.headers.get("user-agent");
     const ipAddress =
@@ -65,8 +72,8 @@ export async function POST(request: Request) {
           reviewSummary,
           selectedPackage: form.selectedPackage,
           contact: form.contact,
-          messages,
-          estimate,
+          messages: messagesJson,
+          estimate: estimateJson,
           referenceId: estimate.referenceId,
           userAgent: userAgent ?? undefined,
           ipAddress: ipAddress ?? undefined,
@@ -151,6 +158,7 @@ export async function POST(request: Request) {
     }
 
     const { prisma } = await import("@/lib/prisma");
+    const planJson = toInputJson(plan);
     const saved = await prisma.intakeSubmission.create({
       data: {
         purpose: form.purpose,
@@ -160,9 +168,9 @@ export async function POST(request: Request) {
         reviewSummary,
         selectedPackage: form.selectedPackage,
         contact: form.contact,
-        messages,
-        estimate,
-        plan,
+        messages: messagesJson,
+        estimate: estimateJson,
+        plan: planJson,
         referenceId: estimate.referenceId,
         userAgent: userAgent ?? undefined,
         ipAddress: ipAddress ?? undefined,

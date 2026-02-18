@@ -76,12 +76,15 @@ export function estimatePackages(form: IntakeForm): IntakeEstimate {
       ];
 
   const multiplier = isCorporate ? weeks : Math.max(1, Math.round(weeks));
-  const packages = (isCorporate ? CORPORATE_PACKAGES : PERSONAL_PACKAGES).map(
+  const packages: PackageEstimate[] = (isCorporate
+    ? CORPORATE_PACKAGES
+    : PERSONAL_PACKAGES
+  ).map(
     (pkg, index) => ({
       ...pkg,
       min: baseRanges[index].min * multiplier,
       max: baseRanges[index].max * multiplier,
-      unit: isCorporate ? "week" : "case",
+      unit: isCorporate ? ("week" as const) : ("case" as const),
     })
   );
 

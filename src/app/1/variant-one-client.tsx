@@ -132,12 +132,6 @@ export default function VariantOneClient({ consultationCount }: VariantOneClient
               <Link href="/consultation" className={styles.primaryBtn}>
                 익명 상담 시작
               </Link>
-              <div className={styles.avatar}>
-                <img
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVMUmpPNuAWVnKOAQtR25xtmD_swkoOQYgWUudAUtUANxm_qxUyNjuLxlTHsax04r_IeGO9yryC1Zzrb3sdkcSzwpftCkgGuaLPVCembfhkCIQF-9TBkda4BajGt85-jgViIjH5tRfVRDqFwcVgiSnkYvpuvkiz7kkQNrLiPxn0E_N-DV4Kwske5nF4WlXjnVRVEIXTVIGN7LEwQfovAZ9dIMqIl_gkEHW7vzGhB_FaH0ub3KG9vAHgkxXhoq9wsA9Tm_xPTi--iE"
-                  alt="상담사 프로필"
-                />
-              </div>
             </div>
           </div>
         </div>

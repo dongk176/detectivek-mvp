@@ -144,20 +144,20 @@
     url("/home.png");
   background-repeat: no-repeat, no-repeat, no-repeat;
   background-position: center, center, center;
-  background-size: 100% 100%, 100% 100%, cover;
+  background-size: 100% 100%, 100% 100%, auto 100%;
   background-color: #101622;
 }
 
 @media (min-aspect-ratio: 19/9) {
   .heroBg {
-    background-size: 100% 100%, 100% 100%, 110%;
+    background-size: 100% 100%, 100% 100%, auto 100%;
     background-position: center, center, center top;
   }
 }
 
 @media (max-aspect-ratio: 4/3) {
   .heroBg {
-    background-size: 100% 100%, 100% 100%, 130%;
+    background-size: 100% 100%, 100% 100%, auto 100%;
     background-position: center, center, center top;
   }
 }
@@ -1180,7 +1180,7 @@
     height: auto;
     min-height: 100%;
     background-position: center, center, center top;
-    background-size: 100% 100%, 100% 100%, cover;
+    background-size: 100% 100%, 100% 100%, auto 100%;
   }
 
   .heroGrid {

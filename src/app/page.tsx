@@ -56,7 +56,7 @@ export default async function Home() {
                 <span className="hero-highlight">익명 상담부터 시작</span>
               </h1>
               <p className="hero-desc">
-                투명한 가격과 합법 기준을 바탕으로 조사를 진행합니다. 탐정케이는
+                투명한 가격과 합법 기준으로 조사를 진행합니다. 탐정케이는
                 기록 가능한 증빙으로 진실을 지켜드립니다.
               </p>
               <div className="hero-actions">
@@ -100,7 +100,7 @@ export default async function Home() {
                   </div>
                   <div className="hero-metric-content">
                     <p>제휴 법무 파트너</p>
-                    <h3>법무법인 동케이</h3>
+                    <h3>법률사무소 현명</h3>
                   </div>
                 </article>
                 <article className="hero-metric-card">
@@ -139,7 +139,7 @@ export default async function Home() {
                   <span className="material-symbols-outlined">ads_click</span>
                 </span>
                 <h3>명확한 범위</h3>
-                <p>조사 범위와 목표를 사전에 합의해 혼선을 줄입니다.</p>
+                <p>조사 범위와 목표를 사전에 합의해 혼선과 추가 비용을 줄입니다.</p>
               </article>
               <article>
                 <span className="icon-box">

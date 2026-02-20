@@ -1170,14 +1170,15 @@
 
   .hero {
     height: auto;
-    min-height: min(108svh, calc(100svh + 96px));
+    min-height: min(108dvh, calc(100dvh + 96px));
     align-items: flex-start;
     padding: calc(64px + 20px) 0 40px;
   }
 
   .heroBg {
-    inset: 0 0 auto 0;
-    height: min(108svh, calc(100svh + 96px));
+    inset: 0;
+    height: auto;
+    min-height: 100%;
     background-position: center, center, center top;
     background-size: 100% 100%, 100% 100%, cover;
   }
